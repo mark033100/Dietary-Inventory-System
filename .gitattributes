@@ -9,3 +9,12 @@
 /.github export-ignore
 CHANGELOG.md export-ignore
 .styleci.yml export-ignore
+
+# Always use LF for code files
+*.php text eol=lf
+*.js  text eol=lf
+*.vue text eol=lf
+*.sh  text eol=lf
+
+# Windows batch files can use CRLF
+*.bat text eol=crlf
