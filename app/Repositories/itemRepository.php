@@ -21,4 +21,9 @@ class ItemRepository implements ItemRepositoryInterface
     {
         return Item::where('category', $category)->get();
     }
+
+    public function createItem(array $data)
+    {
+        return Item::create($data);
+    }
 }
