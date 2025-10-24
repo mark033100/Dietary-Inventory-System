@@ -3,7 +3,7 @@
 namespace App\Services\Admin;
 
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use App\Interfaces\Services\PermissionServiceInterface;
+use App\Interfaces\PermissionServiceInterface;
 use Illuminate\Support\Facades\Gate;
 use Carbon\Carbon;
 

@@ -2,7 +2,7 @@
 
 namespace App\Services\Admin;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use App\Interfaces\Services\UserRolesServiceInterface;
+use App\Interfaces\UserRolesServiceInterface;
 use App\Models\UserRole;
 use Carbon\Carbon;
 

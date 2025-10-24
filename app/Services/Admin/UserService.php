@@ -3,7 +3,7 @@
 namespace App\Services\Admin;
 
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use App\Interfaces\Services\UserServiceInterface;
+use App\Interfaces\UserServiceInterface;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Gate;
 use App\Models\User;

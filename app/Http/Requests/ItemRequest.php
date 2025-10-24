@@ -26,7 +26,7 @@ class ItemRequest extends FormRequest
             'name' => 'required|string|max:255',
             'category' => 'required|string|max:3',
             'unit_qty' => 'required|numeric',
-            'unit_id' => 'required|integer',
+            'unit_id' => 'required|string',
             'description' => 'nullable|string',
             'created_at' => 'nullable|date',
             'updated_at' => 'nullable|date',
