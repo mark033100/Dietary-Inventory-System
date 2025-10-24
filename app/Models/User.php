@@ -3,12 +3,14 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-
+use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Policies\UserPolicy;
 
+#[UsePolicy(UserPolicy::class)]
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -20,10 +22,13 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
-        'employeeid',
+        'username',
+        'email',
+        'employee_id',
+        'role',
+        'status',
         'password',
-        'roles',
+        'deleted_at',
     ];
 
     /**
@@ -54,8 +59,25 @@ class User extends Authenticatable
         return $this->belongsToMany(Permissions::class, 'user_permissions', 'user_id', 'permission_id');
     }
 
+    public function role()
+    {
+        return $this->belongsTo(UserRole::class, 'roles', 'name');
+    }
+
     public function hasPermission($permissionName)
     {
         return $this->permissions()->where('name', $permissionName)->exists();
     }
+
+    public function isSuperAdmin()
+    {
+        return $this->roles === 1;
+    }
+
+    public function isAdmin()
+    {
+        return in_array($this->roles, [2, 1]);
+    }
+
+
 }

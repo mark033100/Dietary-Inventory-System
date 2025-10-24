@@ -42,25 +42,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
         // 🧩 2. Handle validation exceptions (422)
         $exceptions->renderable(function (Throwable $e) {
-            if ($e instanceof \Illuminate\Validation\ValidationException) {
-                return response()->json([
-                    'error_title' => 'Validation Error',
-                    'error_message' => $e->getMessage(),
-                    'error_code' => 422,
-                    'error_type' => get_class($e),
-                    'errors' => $e->errors(), // include validation field errors
-                ], 422);
-            }
-            if ($e instanceof \Illuminate\Auth\AuthenticationException) {
-                return response()->json([
-                    'error_title' => 'Authentication Error',
-                    'error_message' => $e->getMessage(),
-                    'error_code' => 401,
-                    'error_type' => get_class($e),
-                ], 401);
-            }
 
-            // 🧩 3. Default fallback for all other exceptions (500)
             return response()->json([
                 'error_title' => 'Server Error',
                 'error_message' => $e->getMessage(),

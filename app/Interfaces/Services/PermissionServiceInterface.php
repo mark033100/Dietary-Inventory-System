@@ -4,9 +4,10 @@ namespace App\Interfaces\Services;
 
 interface PermissionServiceInterface
 {
-    public function getAllPermissions();
+    public function getPermissions();
     public function createPermission(array $data);
     public function deletePermission($id);
+    public function assignPermissionToUser(array $data);
     public function readUserPermissions($id);
     public function deleteUserPermission($id);
 

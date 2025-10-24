@@ -2,8 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Model;
+use App\Policies\PermissionsPolicy;
 
+
+#[UsePolicy(PermissionsPolicy::class)]
 class Permissions extends Model
 {
 

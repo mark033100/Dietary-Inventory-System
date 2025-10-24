@@ -10,7 +10,7 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('item', function (Blueprint $table) {
+        Schema::create('items', function (Blueprint $table) {
             $table->id();
             $table->string('sku')
                 ->unique()
@@ -29,6 +29,9 @@ return new class extends Migration {
             $table->text('description')
                 ->nullable()
                 ->default(null);
+            $table->timestamp('expiration_date')
+                ->nullable()
+                ->default(null);
             $table->timestamps();
             $table->string('created_by')
                 ->nullable()
@@ -44,6 +47,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('item');
+        Schema::dropIfExists('items');
     }
 };

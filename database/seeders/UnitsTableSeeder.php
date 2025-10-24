@@ -48,6 +48,6 @@ class UnitsTableSeeder extends Seeder
             $unit['updated_at'] = Carbon::now();
         }
 
-        DB::table('units')->insert($units);
+        DB::table('measurement_units')->insert($units);
     }
 }

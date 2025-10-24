@@ -9,19 +9,18 @@ use App\Models\User;
 class AuthController extends Controller
 {
 
-
     public function login(Request $request)
     {
         // Handle login logic
 
         // 1. Validate the request
         $credentials = $request->validate([
-            'email' => ['required', 'email'],
+            'username' => ['required', 'string'],
             'password' => ['required', 'min:8'],
         ]);
 
-        // 2. Check if email exists
-        $user = User::where('email', $credentials['email'])->first();
+        // 2. Check if username exists
+        $user = User::where('username', $credentials['username'])->first();
         if (!$user || !Hash::check($credentials['password'], $user->password)) {
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
@@ -40,15 +39,14 @@ class AuthController extends Controller
 
         // 1. Validate the request
         $data = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'username' => ['required', 'string', 'max:255'],
             'password' => ['required', 'string', 'min:8'],
             'roles' => ['required', 'string', 'in:ADMIN,USER'],
         ]);
 
         // 2. Create the user
         $user = User::create([
-            'name' => $data['name'],
+            'username' => $data['username'],
             'email' => $data['email'],
             'roles' => $data['roles'],
             'password' => Hash::make($data['password']),

@@ -1,22 +1,56 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Admin\{PermissionsController, RolesController, UsersController};
 
 
 Route::middleware('auth:sanctum')->group(function () {
 
-    // Permissions Routes
-    Route::post('/create-permission', [AdminController::class, 'createPermissions'])->name('admin.createPermissions');
-    Route::get('/permissions-all', [AdminController::class, 'getAllPermissions'])->name('admin.getAllPermissions');
-    Route::delete('/permission/{id}', [AdminController::class, 'deletePermission'])->name('admin.deletePermission');
+    Route::middleware('can:IS_SUPERADMIN')->group(function () {
 
-    // User Permission Routes
-    Route::post('/add-user-permission', [AdminController::class, 'addUserPermission'])->name('admin.addUserPermission');
-    Route::get('/user-permissions/{id}', [AdminController::class, 'readUserPermissions'])->name('admin.readUserPermissions');
-    Route::delete('/user-permission/{id}', [AdminController::class, 'deleteUserPermission'])->name('admin.deleteUserPermission');
+        Route::controller(PermissionsController::class)->group(function () {
+            // Permissions Routes
+            Route::post('/create-permission', 'createPermissions')->name('admin.createPermissions');
+            Route::get('/permissions', 'getPermissions')->name('admin.getPermissions');
+            Route::delete('/permission/{id}', 'deletePermission')->name('admin.deletePermission');
 
-    // User Routes
-    Route::post('/admin-create', [AdminController::class, 'createAdmin'])->name('admin.createAdmin');
-    Route::post('/user-create', [AdminController::class, 'createUser'])->name('admin.createUser');
+            // User Permission Routes
+            Route::post('/assign-user-permission', 'assignPermissionToUser')->name('admin.assignPermissionToUser');
+            Route::get('/user-permissions/{id}', 'readUserPermissions')->name('admin.readUserPermissions');
+            Route::delete('/user-permission/{id}', 'revokePermissionFromUser')->name('admin.revokePermissionFromUser');
+        });
+
+        // User Force Delete and Prune Routes
+        Route::controller(UsersController::class)->group(function () {
+            Route::delete('/user-force-delete/{id}', 'forceDeleteUser')->name('admin.forceDeleteUser');
+            Route::delete('/prune-deleted-users', 'pruneDeletedUsers')->name('admin.pruneDeletedUsers');
+        });
+
+        // User Role Force Delete and Prune Routes
+        Route::controller(RolesController::class)->group(function () {
+            Route::delete('/role-force-delete/{id}', 'forceDeleteRole')->name('admin.forceDeleteRole');
+            Route::delete('/prune-deleted-roles', 'pruneDeletedRoles')->name('admin.pruneDeletedRoles');
+        });
+    });
+
+
+    Route::middleware('can:IS_ADMIN')->group(function () {
+        // User Routes
+        Route::controller(UsersController::class)->group(function () {
+            Route::post('/user-create', 'createUser')->name('admin.createUser');
+            Route::get('/users-all', 'getUsers')->name('admin.getUsers');
+            Route::put('/user-update/{id}', 'updateUser')->name('admin.updateUser');
+            Route::delete('/user-delete/{id}', 'deleteUser')->name('admin.deleteUser');
+
+        });
+
+        // User Role Routes
+        Route::controller(RolesController::class)->group(function () {
+            Route::post('/create-role', 'createRole')->name('admin.createRole');
+            Route::get('/roles-all', 'getRoles')->name('admin.getRoles');
+            Route::delete('/role-delete/{id}', 'deleteRole')->name('admin.deleteRole');
+            Route::put('/role-update/{id}', 'updateRole')->name('admin.updateRole');
+        });
+    });
+
 });
