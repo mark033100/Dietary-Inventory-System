@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Interfaces\Services\UserRolesServiceInterface;
+use App\Interfaces\UserRolesServiceInterface;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 

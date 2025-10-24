@@ -3,15 +3,17 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Interfaces\Repositories\ItemRepositoryInterface;
-use App\Interfaces\Services\{
+
+use App\Interfaces\{
     ItemServiceInterface,
+    ItemCategoriesServiceInterface,
     UserRolesServiceInterface,
     UserServiceInterface,
     PermissionServiceInterface
 };
-use App\Repositories\itemRepository;
-use App\Services\ItemService;
+
+
+use App\Services\Items\{ItemCategoriesService, ItemsService};
 use App\Services\Admin\{UserRolesService, UserService, PermissionService};
 
 class AppServiceProvider extends ServiceProvider
@@ -21,11 +23,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind(ItemRepositoryInterface::class, itemRepository::class);
-        $this->app->bind(ItemServiceInterface::class, ItemService::class);
+        // Service Binds
+        $this->app->bind(ItemServiceInterface::class, ItemsService::class);
+        $this->app->bind(ItemCategoriesServiceInterface::class, ItemCategoriesService::class);
         $this->app->bind(UserRolesServiceInterface::class, UserRolesService::class);
         $this->app->bind(PermissionServiceInterface::class, PermissionService::class);
         $this->app->bind(UserServiceInterface::class, UserService::class);
+
+
     }
 
     /**

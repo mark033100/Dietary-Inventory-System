@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Interfaces\Services\PermissionServiceInterface;
+use App\Interfaces\PermissionServiceInterface;
 use Illuminate\Http\Request;
 
 class PermissionsController extends Controller
